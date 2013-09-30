@@ -3,9 +3,9 @@ Cheese Whiz Design
 
 ###Terms:
 
-** Cheese Whiz ** - Working name for the "runner" program that makes sure the processes that should be running are running.
+**Cheese Whiz** - Working name for the "runner" program that makes sure the processes that should be running are running.
 
-** Whizzifest ** - The manifest which contains the names and locations (formatted as processName|destination) of the processes that should be active in the current version.
+**Whizzifest** - The manifest which contains the names and locations (formatted as processName|destination) of the processes that should be active in the current version.
 
 ###Requirements:
 
@@ -20,19 +20,19 @@ Cheese Whiz Design
 
 ###Components:
 
-* Chron Job - allows for automacy and periodicity
+* **Chron Job** - allows for automacy and periodicity
 	
 	the chron job activates the process that reads whizzifest
 	
-* Read whizzifest - reads and sends the manifest of programs that should be running
+* **Read whizzifest** - reads and sends the manifest of programs that should be running
 
 	read whizzifest is activated by the chron job and passes a list of names and destinations to the process that checks running processes
 	
-* Check running processes - checks which processes are running, returns what is not running that should be
+* **Check running processes** - checks which processes are running, returns what is not running that should be
 
 	check running processes receives a list of names and destinations from the read whizzifest process and passes a string of processes that are not running but should be to the run inactive process
 	
-* Run inactive - runs inactive processes that should be active and terminates active processes that should be inactive
+* **Run inactive** - runs inactive processes that should be active and terminates active processes that should be inactive
 
 	the run inactive process gets a string of processes that need to be executed and executes them.
 
