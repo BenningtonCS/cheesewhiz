@@ -38,6 +38,6 @@ for item in programs:
                 notrunning += " " + item[0]
 
 
-
+# run script that initiates programs that are not running, but should be
 os.system("./run.sh" + notrunning)
 
