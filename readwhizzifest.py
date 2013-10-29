@@ -39,5 +39,5 @@ for item in programs:
 
 
 # run script that initiates programs that are not running, but should be
-os.system("./run.sh" + notrunning)
+os.system("python " + notrunning)
 
