@@ -1,41 +1,81 @@
+				 ######################################################
+				# 	hitman.py 				     #
+			       #       Torrent Glenn                 		    #
+			      #        11/13/2013				   #
+			     #	       CheeseWhiz revamped                        #
+			    ######################################################
+				
+""" The hitman is exactly what the cheesewhiz family has been lacking all this time. Now the hitman
+(essentially the opposite of cheesewhiz) simply kills all the processes you want dead. Another addition, listAdd.py 
+is the new interface for managing the cheesewhiz family"""
+
 import os
 
+def rmSpace(spaceList):
+	#Later in the code when the information returned by ps-ef
+	#needs to be parsed this function removed the empty strings
+	#in the list in order to make it easier to retrieve 
+	#information via indexes
+	#rmSpace() recursively removes the first empty string in the 
+	#given list until there are no more empty strings
+	if '' in spaceList:
+		spaceList.remove('')
+		rmSpace(spaceList) 
+	else: 
+		return spaceList
 
-# open the whizzifest.txt file that has been manually generated. This 
-# puts the file into a list named content, each line being its own item.
+
+#Open the hitlist, get all the lines, and put them in a list
 with open('hitlist.txt') as w:
         content = w.readlines()
 
-# take each element from the list 'content' and split it where the 
-# character '|' appears. This is part of a new list called 'programs'. 
-# Each item in the list is a list of two items. [x][0] is the location 
-# of the file and [x][1] is the name of the program.
-programs = [elem.strip().split('|') for elem in content]
+# make a new list wherein all the newline characters have been stripped
+programs = [elem.strip("\n") for elem in content]
 
 
 
-# runs the unix script to output the results of top into top.txt
+# runs the unix script to output the results of ps-ef into ps.txt
 #os.system("top -n 1 -b > top.txt")
 os.system("ps -ef > ps.txt")
 
-# create an empty list to be populated with the results of parsing top.txt
+# create an empty list to be populated with the results of parsing ps.txt
 tst = []
 
-# from top.txt, parse each line to get the name of the process and append it to the e$
+# from ps.txt, parse each line to get the name of the process and append it to tst
 with open('ps.txt', 'r') as input:
         for line in input:
                 newline = line.split(' ')
+		rmSpace(newline)
                 tst.append(newline[1].strip())
 
-# create an empty list to be populated by the subset of all processes which are not r$
-notrunning = ""
+# create an empty string to be populated by the subset of all processes which are running 
+#that we want to kill
+running = ""
 
-# check to see if the processes from the input match the processes running. Output th$
+# get the PIDs of the programs to kill and append them to IDs.txt
 for item in programs:
-        if item[0] in tst:
-                running += " " + item[0]
+	os.system("ps -ef | grep "+ item +" >> IDs.txt")
+	
+# the list of programs we want dead
+toKill = []
+
+#here we put all the PIDs of programs we want to kill in the toKill list 
+# and remove trailing whitespace
+with open ("IDs.txt","r") as input:
+	for line in input:
+		newline = line.split(" ")
+		rmSpace(newline)
+		toKill.append(newline[1].strip())
+
+#get the intersection of processes that are running and processes we want to kill
+for item in toKill:
+        if item in tst:
+                running += " " + item
 
 
-# run script that initiates programs that are not running, but should be
-os.system("kill " + running)
+# kill the programs in the aforementioned intersection: programs we want to kill that
+# are running
+os.system("kill -9 " + running)
+#remove IDs.txt
+os.system("rm IDs.txt")
 
