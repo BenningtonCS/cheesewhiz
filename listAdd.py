@@ -9,8 +9,7 @@ def getList(listToGet):
 	newList = []
 	with open(whizconfig.path+listToGet,"r+") as whizFile:
 		for line in whizFile:
-			newList += line
-			newList = newList.strip("\n")
+			newList += line.strip("\n")
 			return newList
 
 for item in sys.argv:
