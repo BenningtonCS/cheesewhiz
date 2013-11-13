@@ -14,7 +14,9 @@ was not adding to. i.e. if jankprocess.py is in whizzifest.txt running
 and remove it from the whizzifest. Hitman.py will kill processes on the 
 hitlist while readwhizzifest.py will run processes in the whizzifest. 
 As with any change to a file on backus, you MUST run mgen.py in order
-for the pis to know what's happening."""
+for the pis to know what's happening. The -p (manual path entry option)
+allows you to add entire paths i.e. "/foo/bar/process.py" as opposed to
+the default "/data/gfsbin/" being added to the processes provided."""
 
 
 
@@ -54,8 +56,11 @@ if "r" in options and "k" in options:
 #I had a simpler way to do this: with just "process = whizconfig.path + process"
 #but i didn't work so I did this complicated reference to index thing to add the 
 #appropriate path to each process
-for process in sys.argv:
-	sys.argv[sys.argv.index(process)] = whizconfig.path + sys.argv[sys.argv.index(process)]
+# the default is to add the path "/data/gfsbin/" to a process
+# however, the option "-p" allows you to supply entire paths for the processes manually
+if "p" not in options:
+	for process in sys.argv:
+		sys.argv[sys.argv.index(process)] = whizconfig.path + sys.argv[sys.argv.index(process)]
 
 # create and populate the toRun and toKill lists with the contents of the respective files
 toRun = []
