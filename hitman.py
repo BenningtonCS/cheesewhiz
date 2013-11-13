@@ -1,3 +1,14 @@
+				 ######################################################
+				# 	hitman.py 				     #
+			       #       Torrent Glenn                 		    #
+			      #        11/13/2013				   #
+			     #	       CheeseWhiz revamped                        #
+			    ######################################################
+				
+""" The hitman is exactly what the cheesewhiz family has been lacking all this time. Now the hitman
+(essentially the opposite of cheesewhiz) simply kills all the processes you want dead. Another addition, listAdd.py 
+is the new interface for managing the cheesewhiz family"""
+
 import os
 
 def rmSpace(spaceList):
