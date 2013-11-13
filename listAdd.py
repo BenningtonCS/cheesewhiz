@@ -7,10 +7,10 @@ options = ""
 
 def getList(listToGet):
 	newList = []
-	with open(whizconfig.path+listToGet,"r+") as whizFile:
+	with open(whizconfig.path+listToGet,"r") as whizFile:
 		for line in whizFile:
-			newList += line.strip("\n")
-			return newList
+			newList.append(line.strip("\n"))
+		return newList
 
 for item in sys.argv:
 	if item[0] == "-":
@@ -22,12 +22,16 @@ if "r" in options and "k" in options:
 	print "You need to choose whether to 'run' or 'kill'."
 	exit(0)
 
-if "p" in options:
-	for process in sys.argv:
-		process = whizconfig.path + process
 
-toRun = getList("whizzifest.txt")
-toKill = getList("hitlist.txt")
+for process in sys.argv:
+	sys.argv[sys.argv.index(process)] = whizconfig.path + sys.argv[sys.argv.index(process)]
+print "sys.argv : ", sys.argv
+
+toRun = []
+toKill = []
+toRun += getList("whizzifest.txt")
+toKill += getList("hitlist.txt")
+
 
 if "r" in options:
 	for process in sys.argv:
