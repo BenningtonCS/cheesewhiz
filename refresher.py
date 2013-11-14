@@ -1,8 +1,8 @@
-import os,socket,threading, sys
+import os,socket,threading, sys, psutil
 import restartConfig as rConfig
 
-PORT = rConfig.port 
-ADDRESS = "" 
+PORT = rConfig.port
+ADDRESS = ""
 refreshList = []
 
 def rmSpace(spaceList):
@@ -14,8 +14,8 @@ def rmSpace(spaceList):
         #given list until there are no more empty strings
         if '' in spaceList:
                 spaceList.remove('')
-                rmSpace(spaceList) 
-        else: 
+                rmSpace(spaceList)
+        else:
                 return spaceList
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,35 +24,25 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((ADDRESS,PORT))
 
 while 1:
-	s.listen(1)
-	conn, addr = s.accept()
-	toRestart = s.recv(2048).split("|")
+        s.listen(1)
+        conn, addr = s.accept()
+        toRestart = s.recv(2048).split"|")
 
-	os.system("ps -ef > processes.txt")
+        pList = psutil.get_pid_list()
+        nList = []
+        toKill = []
+        toRun = ""
 
-	tList = []
+        for process in pList:
+                nlist.append(psutil.Process(process).cmdline[-1])
 
-	with open('processes.txt', 'r') as input:
-        for line in input:
-                newline = line.split(' ')
-                tList.append(newline[1].strip())
+        for item in toRestart:
+                for name in nList:
+                        if item in name[0]
+                        toKill.append(pList[nList.index(name)])
 
-    for item in toRestart:
-        os.system("ps -ef | grep "+ item +" >> PIDs.txt")
+        for item in toRestart:
+                toRun += " " + item
 
-    restartable = ""
-
-    with open ("PIDs.txt","r") as input:
-        for line in input:
-                newline = line.split(" ")
-                rmSpace(newline)
-                refreshList.append(newline[1].strip())
-
-    for item in refreshList:
-        if item in tList:
-                restartable += " " + item
-
-    os.system("kill " + running)
-    os.system("rm processes.txt PIDs.txt")
-    os.system("python "+ restartable)
-
+        os.system("kill" + toKill)
+        os.system("python "+ toRun)
