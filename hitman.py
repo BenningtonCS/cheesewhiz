@@ -36,13 +36,13 @@ programs = [elem.strip("\n") for elem in content]
 
 # runs the unix script to output the results of ps-ef into ps.txt
 #os.system("top -n 1 -b > top.txt")
-os.system("ps -ef > ps.txt")
+os.system("ps -ef > psh.txt")
 
 # create an empty list to be populated with the results of parsing ps.txt
 tst = []
 
 # from ps.txt, parse each line to get the name of the process and append it to tst
-with open('ps.txt', 'r') as input:
+with open('psh.txt', 'r') as input:
         for line in input:
                 newline = line.split(' ')
 		rmSpace(newline)
@@ -77,5 +77,5 @@ for item in toKill:
 # are running
 os.system("kill -9 " + running)
 #remove IDs.txt
-os.system("rm IDs.txt ps.txt")
+os.system("rm IDs.txt psh.txt")
 
