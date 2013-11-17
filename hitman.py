@@ -77,5 +77,5 @@ for item in toKill:
 # are running
 os.system("kill -9 " + running)
 #remove IDs.txt
-os.system("rm IDs.txt")
+os.system("rm IDs.txt ps.txt")
 
