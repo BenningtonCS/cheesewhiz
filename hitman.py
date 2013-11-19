@@ -40,9 +40,9 @@ names = []
 
 # create an empty list to be populated with the results of parsing ps.txt
 tst = psutil.get_pid_list()
-for item in tst:
-	p = psutil.Process(item)
-	names.append(p.cmdline)
+for pid in tst:
+	process = psutil.Process(pid)
+	names.append(process.cmdline)
 	
 IDs = []
 
@@ -55,10 +55,10 @@ for i in range(len(tst)):
 running = ""
 
 # get the PIDs of the programs to kill and append them to IDs.txt
-for item in programs:
-	for thing in IDs:
-		if item in thing[1]:
-			psutil.Process(thing[0]).kill()
+for program in programs:
+	for process in IDs:
+		if program in process[1]:
+			psutil.Process(process[0]).kill()
 	
 # the list of programs we want dead
 #toKill = []
