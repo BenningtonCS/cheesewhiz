@@ -9,7 +9,7 @@
 (essentially the opposite of cheesewhiz) simply kills all the processes you want dead. Another addition, listAdd.py 
 is the new interface for managing the cheesewhiz family"""
 
-import os
+import os, psutil
 
 def rmSpace(spaceList):
 	#Later in the code when the information returned by ps-ef
@@ -36,17 +36,19 @@ programs = [elem.strip("\n") for elem in content]
 
 # runs the unix script to output the results of ps-ef into ps.txt
 #os.system("top -n 1 -b > top.txt")
-os.system("ps -ef > psh.txt")
+names = []
 
 # create an empty list to be populated with the results of parsing ps.txt
-tst = []
+tst = psutil.get_pid_list()
+for item in tst:
+	p = psutil.Process(item)
+	names.append(p.cmdline)
+	
+IDs = []
 
-# from ps.txt, parse each line to get the name of the process and append it to tst
-with open('psh.txt', 'r') as input:
-        for line in input:
-                newline = line.split(' ')
-		rmSpace(newline)
-                tst.append(newline[1].strip())
+for i in range(len(tst)):
+	IDs.append(tst[i],names[i])
+
 
 # create an empty string to be populated by the subset of all processes which are running 
 #that we want to kill
@@ -54,28 +56,24 @@ running = ""
 
 # get the PIDs of the programs to kill and append them to IDs.txt
 for item in programs:
-	os.system("ps -ef | grep "+ item +" >> IDs.txt")
+	for thing in IDs:
+		if item in thing[1]:
+			psutil.Process(thing[0]).kill()
 	
 # the list of programs we want dead
-toKill = []
+#toKill = []
 
-#here we put all the PIDs of programs we want to kill in the toKill list 
-# and remove trailing whitespace
-with open ("IDs.txt","r") as input:
-	for line in input:
-		newline = line.split(" ")
-		rmSpace(newline)
-		toKill.append(newline[1].strip())
+
 
 #get the intersection of processes that are running and processes we want to kill
-for item in toKill:
-        if item in tst:
-                running += " " + item
+#for item in toKill:
+      #  if item in tst:
+           #     running += " " + item
 
 
 # kill the programs in the aforementioned intersection: programs we want to kill that
 # are running
-os.system("kill -9 " + running)
+#os.system("kill -9 " + running)
 #remove IDs.txt
-os.system("rm IDs.txt psh.txt")
+#os.system("rm IDs.txt psh.txt")
 
