@@ -47,7 +47,7 @@ for item in tst:
 IDs = []
 
 for i in range(len(tst)):
-	IDs.append(tst[i],names[i])
+	IDs.append([tst[i],names[i]])
 
 
 # create an empty string to be populated by the subset of all processes which are running 
