@@ -20,13 +20,13 @@ Cheese Whiz Design
 
 ###Components:
 
-* **Chron Job** - allows for automacy and periodicity
+* **Cron Job** - allows for automacy and periodicity
 	
-	the chron job activates the process that reads whizzifest
+	the cron job activates the process that reads whizzifest
 	
 * **Read whizzifest** - reads and sends the manifest of programs that should be running
 
-	read whizzifest is activated by the chron job and passes a list of names and destinations to the process that checks running processes
+	read whizzifest is activated by the cron job and passes a list of names and destinations to the process that checks running processes
 	
 * **Check running processes** - checks which processes are running, returns what is not running that should be
 
